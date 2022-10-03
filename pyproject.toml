@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "tiny-fsdl"
+version = "0.1.0"
+description = ""
+authors = ["David Rose <david@drose.io>"]
+readme = "README.md"
+packages = [{include = "tiny_fsdl"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+jupyterlab = "^3.4.7"
+matplotlib = "^3.6.0"
+numpy = "^1.23.3"
+opencv-python = "^4.6.0.66"
+black = "^22.8.0"
+tqdm = "^4.64.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
