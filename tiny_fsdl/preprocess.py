@@ -39,18 +39,10 @@ class Preprocess:
         y,
         w,
         h,
-        # digits_before,
-        # digits_after,
-        # x_before,
-        # x_after,
     ):
         self.y = y
         self.w = w
         self.h = h
-        # self.digits_before = digits_before
-        # self.digits_after = digits_after
-        # self.x_before = x_before
-        # self.x_after = x_after
 
     def crop(self, img, x):
         return img[
