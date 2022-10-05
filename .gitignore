@@ -128,3 +128,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Tiny-fsdl
+# data/
+**/data/processed_images/**
+.DS_STORE
