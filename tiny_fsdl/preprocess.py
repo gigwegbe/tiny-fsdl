@@ -36,13 +36,21 @@ x_after = 89
 class Preprocess:
     def __init__(
         self,
-        y,
-        w,
-        h,
+        y=y,
+        w=w,
+        h=h,
+        digits_before=digits_before,
+        digits_after=digits_after,
+        x_before=x_before,
+        x_after=x_after,
     ):
         self.y = y
         self.w = w
         self.h = h
+        self.digits_before = digits_before
+        self.digits_after = digits_after
+        self.x_before = x_before
+        self.x_after = x_after
 
     def crop(self, img, x):
         return img[
@@ -50,7 +58,43 @@ class Preprocess:
             x : x + self.w,
         ]
 
-    def start(
+    def process_image(self, img_path, output_dir):
+        LOG.info(f"Cropping image {img_path}")
+        img_path = Path(img_path)
+        output_dir = Path(output_dir)
+        shutil.rmtree(output_dir, ignore_errors=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        assert os.path.exists(output_dir), "Output directory does not exist"
+
+        raw_img = cv2.imread(str(img_path))
+
+        # Digits before decimal
+        for digit in range(self.digits_before):
+            if digit < 0 or digit == 3 or digit == 4:
+                continue
+            x = x_before + (digit * 15)
+            new_crop = self.crop(raw_img, x)
+            out_file = Path(output_dir, f"cropped_{img_path.name}_b_{digit}.bmp")
+            cv2.imwrite(
+                filename=str(out_file),
+                img=new_crop,
+            )
+            LOG.info(f"Wrote crop to {out_file}")
+
+        # Digits after decimal
+        for digit in range(self.digits_after):
+            if digit < 0:
+                continue
+            x = self.x_after + (digit * 15)
+            new_crop = self.crop(raw_img, x)
+            out_file = Path(output_dir, f"cropped_{img_path.name}_b_{digit}.bmp")
+            cv2.imwrite(
+                filename=str(out_file),
+                img=new_crop,
+            )
+            LOG.info(f"Wrote crop to {out_file}")
+
+    def process_dir(
         self,
         input_dir,
         output_dir,
