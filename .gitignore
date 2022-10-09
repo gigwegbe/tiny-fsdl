@@ -132,4 +132,5 @@ dmypy.json
 # Tiny-fsdl
 # data/
 **/data/processed_images/**
+**/data/processed_streamlit/**
 .DS_STORE
