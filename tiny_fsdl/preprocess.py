@@ -147,8 +147,7 @@ class Preprocess:
 ##############
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+def main():
     preprocess = Preprocess(y, w, h)
     preprocess.start(
         input_dir=INPUT_DIR,
@@ -158,3 +157,8 @@ if __name__ == "__main__":
         x_before=x_before,
         x_after=x_after,
     )
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    main()
