@@ -13,13 +13,12 @@ def representative_dataset():
 
 LOG = logging.getLogger(__name__)
 
-MODEL_OUTPUT_DIR = "../ml/models/"
 IMG_SIZE = (15, 25)
 
 
-def quantize_model(tf_model_file, output_dir, save=True):
+def quantize_model(tf_model_path, output_dir, file_name, save=True):
     # Load saved model
-    model = tf.keras.models.load_model(tf_model_file)
+    model = tf.keras.models.load_model(tf_model_path)
 
     # Apply model compression -  integer-only quantization¶
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
@@ -33,7 +32,7 @@ def quantize_model(tf_model_file, output_dir, save=True):
     LOG.info(f"Quantized model size: {len(tflite_quant_model)} bytes")
 
     if save:
-        quantized_path = os.path.join(output_dir, "digit_model_quantized.tflite")
+        quantized_path = os.path.join(output_dir, file_name)
         with open(quantized_path, "wb") as f:
             f.write(tflite_quant_model)
         LOG.info(f"Quantized model saved to {quantized_path}")
