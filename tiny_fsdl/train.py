@@ -1,4 +1,3 @@
-import glob
 import logging
 import os
 import warnings
@@ -8,16 +7,9 @@ import warnings
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
 import splitfolders
 import tensorflow as tf
-from tensorflow.keras import Model
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing import image_dataset_from_directory
-from tensorflow.keras.layers import Flatten, Dense, Input, ReLU
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import EarlyStopping
 
 
