@@ -87,7 +87,7 @@ class Preprocess:
                 continue
             x = self.x_after + (digit * 15)
             new_crop = self.crop(raw_img, x)
-            out_file = Path(output_dir, f"cropped_{img_path.name}_b_{digit}.bmp")
+            out_file = Path(output_dir, f"cropped_{img_path.name}_a_{digit}.bmp")
             cv2.imwrite(
                 filename=str(out_file),
                 img=new_crop,
