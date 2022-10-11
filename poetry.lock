@@ -1525,6 +1525,17 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "split-folders"
+version = "0.5.1"
+description = "Split folders with files (e.g. images) into training, validation and test (dataset) folders."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+full = ["tqdm"]
+
+[[package]]
 name = "stack-data"
 version = "0.5.1"
 description = "Extract data from python stack frames and tracebacks for informative displays"
@@ -1917,7 +1928,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.9.7 || >3.9.7,<3.11"
-content-hash = "f7dd1b0025295d27c9af8db929313605e6c87566f49f88213ff0eff2a112eb1a"
+content-hash = "e319df227157ef0834da7181bcd9d544180841bd35bf7ed8db7e44bf0e564573"
 
 [metadata.files]
 absl-py = [
@@ -3086,6 +3097,10 @@ sniffio = [
 soupsieve = [
     {file = "soupsieve-2.3.2.post1-py3-none-any.whl", hash = "sha256:3b2503d3c7084a42b1ebd08116e5f81aadfaea95863628c80a3b774a11b7c759"},
     {file = "soupsieve-2.3.2.post1.tar.gz", hash = "sha256:fc53893b3da2c33de295667a0e19f078c14bf86544af307354de5fcf12a3f30d"},
+]
+split-folders = [
+    {file = "split_folders-0.5.1-py3-none-any.whl", hash = "sha256:cb010e00f34d247b8e8bbfd6cfe527f871361d8524ed54734924e7efd261801f"},
+    {file = "split_folders-0.5.1.tar.gz", hash = "sha256:7127a226b90e00fa86cda4451fe015c6f3755bc3d627064adb9c5209fc8280f6"},
 ]
 stack-data = [
     {file = "stack_data-0.5.1-py3-none-any.whl", hash = "sha256:5120731a18ba4c82cefcf84a945f6f3e62319ef413bfc210e32aca3a69310ba2"},

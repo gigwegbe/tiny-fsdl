@@ -11,6 +11,22 @@
             "program": "${workspaceFolder}/tiny_fsdl/preprocess.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "train",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tiny_fsdl/train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "quantize",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tiny_fsdl/quantize.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }
