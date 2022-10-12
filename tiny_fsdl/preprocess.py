@@ -114,7 +114,6 @@ class Preprocess:
 
         crop_ix = 0
         for img_ix, fp in enumerate(tqdm(os.listdir(input_dir))):
-            LOG.info(fp)
             raw_img = cv2.imread(str(Path(input_dir, fp)))
             # Digits before decimal
             for digit in range(digits_before):
@@ -123,7 +122,7 @@ class Preprocess:
                 x = x_before + (digit * 15)
                 new_img = self.crop(raw_img, x)
                 cv2.imwrite(
-                    filename=str(Path(OUTPUT_DIR, f"cropped_{fp}_b_{digit}.bmp")),
+                    filename=str(Path(output_dir, f"cropped_{fp}_b_{digit}.bmp")),
                     img=new_img,
                 )
                 crop_ix += 1
@@ -134,7 +133,7 @@ class Preprocess:
                     x = x_after + (digit * 15)
                     new_img = self.crop(raw_img, x)
                     cv2.imwrite(
-                        filename=str(Path(OUTPUT_DIR, f"cropped_{fp}_a_{digit}.bmp")),
+                        filename=str(Path(output_dir, f"cropped_{fp}_a_{digit}.bmp")),
                         img=new_img,
                     )
                     crop_ix += 1

@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 import warnings
 
 # warnings.filterwarnings('ignore')
@@ -56,24 +57,36 @@ BASE_LEARNING_RATE = 0.001
 EPOCHS = 100
 
 
-def prep_data(label_dir, split_dir, split_ratio, batch_size, img_size, seed):
+def prep_data(
+    img_dir,
+    split_dir,
+    split_ratio,
+    batch_size,
+    img_size,
+    seed,
+    clean_start=False,
+):
     """
     Split the data into train, validation, and test sets.
     """
-    if not os.path.exists:
-        splitfolders.ratio(
-            label_dir,
-            output=split_dir,
-            seed=seed,
-            ratio=split_ratio,
-        )
+    if clean_start:
+        shutil.rmtree(split_dir)
+
+    splitfolders.ratio(
+        img_dir,
+        output=split_dir,
+        seed=seed,
+        ratio=split_ratio,
+    )
+    labels = "inferred"
 
     train_dir = os.path.join(split_dir, "train")
     validation_dir = os.path.join(split_dir, "val")
 
     # Train dataset
     train_dataset = image_dataset_from_directory(
-        train_dir,
+        directory=train_dir,
+        labels=labels,
         shuffle=True,
         seed=seed,
         batch_size=batch_size,
@@ -82,7 +95,8 @@ def prep_data(label_dir, split_dir, split_ratio, batch_size, img_size, seed):
 
     # Validation dataset
     validation_dataset = image_dataset_from_directory(
-        validation_dir,
+        directory=validation_dir,
+        labels=labels,
         shuffle=True,
         seed=seed,
         batch_size=batch_size,
