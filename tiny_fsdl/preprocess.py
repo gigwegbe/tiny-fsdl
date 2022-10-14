@@ -58,7 +58,10 @@ class Preprocess:
             x : x + self.w,
         ]
 
-    def process_image(self, img_path, output_dir):
+    def bounding_box(self, x):
+        return (x, self.y, x + self.w, self.y + self.h)
+
+    def process_image(self, img_path, output_dir, bounding_boxes=False):
         LOG.info(f"Cropping image {img_path}")
         img_path = Path(img_path)
         output_dir = Path(output_dir)
@@ -68,12 +71,14 @@ class Preprocess:
 
         raw_img = cv2.imread(str(img_path))
 
+        bounding_boxes = []
         # Digits before decimal
         for digit in range(self.digits_before):
             if digit < 0 or digit == 3 or digit == 4:
                 continue
             x = x_before + (digit * 15)
             new_crop = self.crop(raw_img, x)
+            bounding_boxes.append(self.bounding_box(x))
             out_file = Path(output_dir, f"cropped_{img_path.name}_b_{digit}.bmp")
             cv2.imwrite(
                 filename=str(out_file),
@@ -87,12 +92,21 @@ class Preprocess:
                 continue
             x = self.x_after + (digit * 15)
             new_crop = self.crop(raw_img, x)
+            bounding_boxes.append(self.bounding_box(x))
             out_file = Path(output_dir, f"cropped_{img_path.name}_a_{digit}.bmp")
             cv2.imwrite(
                 filename=str(out_file),
                 img=new_crop,
             )
             LOG.info(f"Wrote crop to {out_file}")
+        if bounding_boxes:
+            [
+                cv2.rectangle(
+                    raw_img, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 1
+                )
+                for box in bounding_boxes
+            ]
+            return raw_img
 
     def process_dir(
         self,
