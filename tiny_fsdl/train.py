@@ -69,8 +69,8 @@ def prep_data(
     """
     Split the data into train, validation, and test sets.
     """
-    if clean_start:
-        shutil.rmtree(split_dir)
+    # delete everything in split_dir
+    shutil.rmtree(split_dir, ignore_errors=True)
 
     splitfolders.ratio(
         img_dir,

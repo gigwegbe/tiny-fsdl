@@ -1,14 +1,24 @@
 import os
 from pathlib import Path
-import tempfile
 
-
-import streamlit as st
-import pandas as pd
+import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+import streamlit as st
+import tensorflow as tf
 
 import preprocess
+
+
+def infer(model_path, img):
+    interpreter = tf.lite.Interpreter(model_path=model_path)
+    interpreter.allocate_tensors()
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    interpreter.set_tensor(input_details[0]["index"], img)
+    interpreter.invoke()
+    prediction = interpreter.get_tensor(output_details[0]["index"])
+    return np.argmax(prediction[0])
+
 
 st.title("Tiny-FSDL Demo")
 st.write("By George Igwegbe and David Rose")
@@ -41,13 +51,25 @@ st.image(str(image_path), use_column_width=True)
 
 # Preprocess the image in opencv for cropping
 pre = preprocess.Preprocess()
-pre.process_image(
+bounded_img = pre.process_image(
     image_path,
     output_dir,
 )
 
-# Load the cropped image in streamlit
+# Display the image with bounding boxes
+st.write("## Bounding Boxes")
+st.image(bounded_img, use_column_width=True)
+
+# Run Inference on the cropped images
 cropped_paths = os.listdir(output_dir)
-st.write("Cropped images:", cropped_paths)
+predictions = []
 for fp in cropped_paths:
-    st.image(str(Path(output_dir, fp)), width=80)
+    img = cv2.imread(str(Path(output_dir, fp))).astype(np.int8)
+    img = np.expand_dims(img, axis=0)
+    img = np.swapaxes(img, 1, 2)
+    prediction = infer("../ml/ml/models/digit_model_quantized.tflite", img)
+    predictions.append(str(prediction))
+
+st.write("## Inference")
+st.write("The model predicts the following digits:")
+st.write(f"### {''.join(predictions)}")
