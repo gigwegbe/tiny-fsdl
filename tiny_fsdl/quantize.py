@@ -47,8 +47,9 @@ def quantize_model(
     return tflite_quant_model
 
 
-def test_quantized_model(quantized_path):
+def test_quantized_model(quantized_path, input_data=None):
     LOG.info("Testing quantized model. . .")
+
     # Load the TFLite model and allocate tensors.
     interpreter = tf.lite.Interpreter(model_path=quantized_path)
     interpreter.allocate_tensors()
@@ -61,7 +62,9 @@ def test_quantized_model(quantized_path):
 
     # # Test the model on random input data.
     input_shape = input_details[0]["shape"]
-    input_data = np.array(np.random.random_sample(input_shape), dtype=np.int8)
+    if input_data is None:
+        input_data = np.array(np.random.random_sample(input_shape), dtype=np.int8)
+
     interpreter.set_tensor(input_details[0]["index"], input_data)
     interpreter.invoke()
     LOG.info("Quantized model tested")

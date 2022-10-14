@@ -133,4 +133,8 @@ dmypy.json
 # data/
 **/data/processed_images/**
 **/data/processed_streamlit/**
+**/data/labels/**
 .DS_STORE
+**.bmp
+**.zip
+.secrets
